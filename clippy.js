@@ -1,7 +1,7 @@
 var clippy = {};
 
 /******
- *
+ *ver 1.5
  *
  * @constructor
  */
