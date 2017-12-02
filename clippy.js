@@ -832,7 +832,7 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
  */
 
     ask:function () {
-        //console.log(arguments);
+        console.log('user asked');
         var argo = arguments[1];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
         //console.log(argo);
@@ -922,7 +922,7 @@ b has callback functions
     },
 // ------------------------------------------------
     _sayWords:function (text, choices, hold, complete, callback, isQuestion, time = this.WORD_SPEAK_TIME) {
-        console.log(arguments);
+        //console.log(arguments);
         this._active = true;
         this._hold = hold;
         var words = text.split(/[^\S-]/);
