@@ -12,28 +12,23 @@
 <h1>This is a Heading</h1>
 <p>This is a paragraph.</p>
 <script type="text/javascript">
-    clippy.load('Merlin', function(agent){
+
+    clippy.load('Merlin', 0, function(agent){
         // do anything with the loaded agent
         agent.show();
-        agent.ask('samo', 'hi', 'samo()', 'hi', 'null');
+        agent.ask('samo', 'hi', 'console.log("--------------------hi")', 'ho', 'console.log("--------------------ho")');
 
     });
-    clippy.load('Clippy', function(agent){
+    setTimeout(function(){
+        clippy.load('Clippy', 1, function(agent){
         // do anything with the loaded agent
         agent.show();
-        agent.ask('sam', 'ho', 'sami()', 'hi', 'null');
+        agent.ask('sam', 'mu', 'console.log("--------------------mu")', 'ko', 'console.log("--------------------ko")');
 
     });
-function samo() {
+    }, 2000);
+    
 
-    alert('hi')
-
-}
-function sami() {
-
-    alert('ho')
-
-}
 </script>
 
 </body>

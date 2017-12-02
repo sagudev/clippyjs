@@ -1,22 +1,25 @@
 var clippy = {};
-
+var id;
+var b = {};
 /******
  *ver 1.5
  *
  * @constructor
  */
-clippy.Agent = function (path, data, sounds) {
+clippy.Agent = function (ida, path, data, sounds) {
+    id = ida;
     this.path = path;
     
     this._queue = new clippy.Queue($.proxy(this._onQueueEmpty, this));
-
-    this._el = $('<div class="clippy"></div>').hide();
+    var idiv = id + '-agent'
+    this._el = $('<div class="clippy"></div>').hide().attr("id",idiv);
 
     $(document.body).append(this._el);
 
     this._animator = new clippy.Animator(this._el, path, data, sounds);
 
-    this._balloon = new clippy.Balloon(this._el);
+    this._balloon = new clippy.Balloon(this._el, id);
+    
 
     this._setupEvents();
 };
@@ -690,7 +693,7 @@ clippy.Animator.States = { WAITING:1, EXITED:0 };
  *
  * @constructor
  */
-clippy.Balloon = function (targetEl) {
+clippy.Balloon = function (targetEl, id) {
     this._targetEl = targetEl;
 
     this._hidden = true;
@@ -700,9 +703,11 @@ clippy.Balloon = function (targetEl) {
 clippy.Balloon.prototype = {
     WORD_SPEAK_TIME:200,
     CLOSE_BALLOON_DELAY:2000,
-
+    //im:id,
+    
     _setup:function () {
-        this._balloon = $('<div class="clippy-balloon"><div class="clippy-tip"></div><div class="clippy-content"></div></div> ').hide();
+        var idiv = id + '-ballon'
+        this._balloon = $('<div class="clippy-balloon" id="' + idiv + '"><div class="clippy-tip"></div><div class="clippy-content"></div></div> ').hide();
         this._content = this._balloon.find('.clippy-content');
 
         $(document.body).append(this._balloon);
@@ -726,6 +731,7 @@ clippy.Balloon.prototype = {
      * @private
      */
     _position:function (side) {
+        //console.log(id);
         var o = this._targetEl.offset();
         var h = this._targetEl.height();
         var w = this._targetEl.width();
@@ -788,6 +794,7 @@ clippy.Balloon.prototype = {
     },
 
     speak:function (complete, text, hold, callback) {
+        //console.log(id);
         this._hidden = false;
         this.show();
         var c = this._content;
@@ -844,17 +851,36 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
         var text = argo[0];
         //console.log(argo[0]);
         argo.shift();
-        //console.log('--------------------');
-        //console.log(argo[0]);
+        console.log('--------------------');
+        console.log(argo);
 
 
-        var a = argo, b = [];
-
+        var a = argo;
+        var f = 0;
+        var c = [];
         for(var i = a.length-1; i >= 0; i--) {
         if(i % 2 === 1) {
-            b.unshift(a.splice(i, 1)[0])
+            c.unshift(a.splice(i, 1)[0])
+            //sami = id + '_' + f;
+            //console.log(f + ': ' + sami)
+            //console.log(a.splice(i, 1));
+            //b[sami] = a.splice(i, 1)[0];
+            //f = f + 1;
         }
         }
+        for(var i = a.length-1; i >= 0; i--) {
+        
+            //b.unshift(a.splice(i, 1)[0])
+            sami = id + '_' + f;
+                //console.log(f + ': ' + sami)
+            //console.log(c.splice(i, 1));
+            b[sami] = c.splice(0, 1)[0];
+            f = f + 1;
+            
+            }
+        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++');
+        //console.log(b);
+        //
 /* 
 ok so now 
 a has names
@@ -865,8 +891,9 @@ b has callback functions
 |   exit   |   exit()  |
 \----------------------/
 */
-        //console.log(a);
-        //console.log(b);
+        console.log(a);
+        console.log(b);
+        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++');
         //console.log(a.length);
         var choices = [];
 
@@ -879,10 +906,12 @@ b has callback functions
             abcElements[i].id = 'abc-' + i;
         
         */
+        var samo;
         for (var i = 0; i < a.length; i++) {
-
+            samo = id + '_' + i;
+            console.log(samo);
             //console.log(a[i])
-			d = $('<a class="clippy-choice" ></a>').text(a[i]).attr("id",i);
+			d = $('<a class="clippy-choice" ></a>').text(a[i]).attr("id",samo);
             choices.push(d);
         }
      
@@ -938,9 +967,11 @@ b has callback functions
                 idx++;
                 this._loop = window.setTimeout($.proxy(this._addWord, this), time);
             } else {
-            	var div = el.append('<div class="questions" />')
+                var div = el.append('<div class="questions-' + id + '" />')
+                var idiv = '.questions-' + id;
             	for (var i = 0; i < choices.length; i++) {
-            		choices[i].appendTo( '.questions');
+
+            		choices[i].appendTo(idiv);
 				}
                 var self = this;
                 $(".clippy-choice").click(function() {
@@ -948,9 +979,11 @@ b has callback functions
                     //if (callback) {
                     //    callback($(this).text());
                     //console.log(callback);
-                    //console.log(this.id);
-                    //console.log(callback[this.id]);
-                    eval(callback[this.id])
+                    console.log('***************************************');
+                    console.log(this.id);
+                    console.log(b[this.id]);
+                    console.log('***************************************');
+                    //eval(callback[this.id])
                     //}
                 });
                 if (!isQuestion && callback) {
@@ -1030,13 +1063,17 @@ b has callback functions
 
 clippy.BASE_PATH = 'agents/';
 
-clippy.load = function (name, successCb, failCb, path) {
+clippy.load = function (name, id, successCb, failCb, path) {
+    //global var agent_num = 0
     //console.log(path);
     //path = path + name || clippy.BASE_PATH + name;
     path = clippy.BASE_PATH + name;
     //console.log(path);
     //console.log(clippy.BASE_PATH);
-    //console.log(name);
+    //console.log(id);
+    //console.log(successCb);
+    //console.log(failCb);
+    //console.log(path);
 
     var mapDfd = clippy.load._loadMap(path);
     var agentDfd = clippy.load._loadAgent(name, path);
@@ -1055,7 +1092,9 @@ clippy.load = function (name, successCb, failCb, path) {
 
     // wrapper to the success callback
     var cb = function () {
-        var a = new clippy.Agent(path, data,sounds);
+        //console.log(agent_num);
+
+        var a = new clippy.Agent(id, path, data,sounds);
         successCb(a);
     };
 
