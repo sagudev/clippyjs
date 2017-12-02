@@ -1,5 +1,11 @@
 var clippy = {};
+function logi(texti) {
+    console.log(texti);
+    return;
+}
 
+
+var samosamo = 'hi';
 /******
  *
  *
@@ -167,6 +173,7 @@ clippy.Agent.prototype = {
      */
     speak:function (text, hold, callback) {
         this._addToQueue(function (complete) {
+            console.log('-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + complete)
             this._balloon.speak(complete, text, hold, callback);
         }, this);
     },
@@ -181,12 +188,7 @@ clippy.Agent.prototype = {
 
         var args = [];
         for (var i = 0; i < arguments.length; ++i) args[i] = arguments[i];
-        
-        
-
-
         this._addToQueue(function (complete) {
-            //console.log(args);
             this._balloon.ask(complete, args);
         }, this);
     },
@@ -788,6 +790,7 @@ clippy.Balloon.prototype = {
     },
 
     speak:function (complete, text, hold, callback) {
+        logi(arguments);
         this._hidden = false;
         this.show();
         var c = this._content;
@@ -803,6 +806,7 @@ clippy.Balloon.prototype = {
         this.reposition();
 
         this._complete = complete;
+        console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete);
         this._sayWords(text, [], hold, complete, callback, false);
     },
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -835,7 +839,7 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
         console.log('user asked');
         var argo = arguments[1];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
-        //console.log(argo);
+        //logi(argo);
         var complete = arguments[0];
         //console.log(argo);
         //console.log(complete);
@@ -906,10 +910,11 @@ b has callback functions
         c.width(c.width());
         c.text('');
         this.reposition();
-        var callback = b;
 
+        var callback = b;
+        var hold = true;
         this._complete = complete;
-        this._sayWords(text, choices, true, complete, callback, true);
+        this._sayWords(text, choices, hold, complete, callback, true);
     },
 // ------------------------------------------------
     show:function () {
@@ -925,6 +930,7 @@ b has callback functions
         //console.log(arguments);
         this._active = true;
         this._hold = hold;
+        logi(hold);
         var words = text.split(/[^\S-]/);
         //var time = this.WORD_SPEAK_TIME;
         //time = typeof time !== 'undefined' ? time : WORD_SPEAK_TIME;
@@ -945,13 +951,14 @@ b has callback functions
                 var self = this;
                 $(".clippy-choice").click(function() {
                     self.close(true);
-                    //if (callback) {
-                    //    callback($(this).text());
+                    var samica = callback[this.id];
+                    if (samica) {
+                        callback($(this).text());
                     //console.log(callback);
                     //console.log(this.id);
                     //console.log(callback[this.id]);
-                    eval(callback[this.id])
-                    //}
+                    //eval(samica);
+                    }
                 });
                 if (!isQuestion && callback) {
                     callback();
@@ -959,6 +966,7 @@ b has callback functions
                 delete this._addWord;
                 this._active = false;
                 if (!this._hold) {
+                    logi('hi')
                     complete();
                     delete this._complete;
                     this.close();
