@@ -947,7 +947,10 @@ b has callback functions
     },
 
     hide:function () {
-        this._balloon.hide();
+        //this._balloon.hide();
+        $('#' + id + 'ballon').hide()
+        console.log('memememememememememememememememememememkemem')
+        console.log(id)
     },
 // ------------------------------------------------
     _sayWords:function (text, choices, hold, complete, callback, isQuestion, time = this.WORD_SPEAK_TIME) {
@@ -974,6 +977,8 @@ b has callback functions
             		choices[i].appendTo(idiv);
 				}
                 var self = this;
+                console.log('//////////////////////////////////////////////////////');
+                console.log(self);
                 $(".clippy-choice").click(function() {
                     self.close(true);
                     //if (callback) {

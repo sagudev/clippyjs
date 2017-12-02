@@ -16,8 +16,13 @@
     clippy.load('Merlin', 0, function(agent){
         // do anything with the loaded agent
         agent.show();
-        agent.ask('samo', 'hi', 'console.log("--------------------hi")', 'ho', 'console.log("--------------------ho")');
+        //agent.ask('samo', 'hi', 'console.log("--------------------hi")', 'ho', 'console.log("--------------------ho")');
+        //agent.ask('sam', 'mu', 'console.log("--------------------mu")', 'ko', 'console.log("--------------------ko")');
+        function samo(hi) {
 
+            agent.say(hi);
+
+        }
     });
     setTimeout(function(){
         clippy.load('Clippy', 1, function(agent){
@@ -28,7 +33,7 @@
     });
     }, 2000);
     
-
+    samo('hi');
 </script>
 
 </body>
