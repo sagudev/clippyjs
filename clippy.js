@@ -1096,6 +1096,13 @@ id-num-choice
 
 clippy.BASE_PATH = 'agents/';
 
+clippy.agents = [];
+clippy.con = function(id) {
+    return clippy.agents.filter(function(agent) {
+        return agent.id == id;
+    })[0];
+}
+
 clippy.load = function (name, id, successCb, failCb, path) {
     //console.log(path);
     //path = path + name || clippy.BASE_PATH + name;
@@ -1122,6 +1129,12 @@ clippy.load = function (name, id, successCb, failCb, path) {
     // wrapper to the success callback
     var cb = function () {
         var a = new clippy.Agent(path, id, data, sounds);
+        clippy.agents.push({
+            name: name,
+            id: id,
+            agent: a
+        });
+
         successCb(a);
     };
 
