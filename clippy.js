@@ -1,5 +1,5 @@
 var clippy = {};
-
+var b = {};
 
 var samosamo = 'hi';
 /******
@@ -12,7 +12,7 @@ clippy.Agent = function (path, id, data, sounds) {
     
     this._queue = new clippy.Queue($.proxy(this._onQueueEmpty, this));
 
-    this._el = $('<div class="clippy"></div>').hide();
+    this._el = $('<div class="clippy" id="' + id + '-clippy"></div>').hide();
 
     $(document.body).append(this._el);
 
@@ -841,7 +841,7 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
 
     ask:function () {
         logi(arguments);
-        logi(this._id);
+        var id = this._id;
         console.log('user asked');
         var argo = arguments[2];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
@@ -859,13 +859,38 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
         //console.log(argo[0]);
 
 
-        var a = argo, b = [];
+        var a = argo;
 
+        var f = 0;
+        var c = [];
         for(var i = a.length-1; i >= 0; i--) {
         if(i % 2 === 1) {
-            b.unshift(a.splice(i, 1)[0])
+            c.unshift(a.splice(i, 1)[0])
+            //sami = id + '_' + f;
+            //console.log(f + ': ' + sami)
+            //console.log(a.splice(i, 1));
+            //b[sami] = a.splice(i, 1)[0];
+            //f = f + 1;
         }
         }
+        for(var i = a.length-1; i >= 0; i--) {
+        
+            //b.unshift(a.splice(i, 1)[0])
+            sami = id + '-' + f + 'choice';
+                //console.log(f + ': ' + sami)
+            //console.log(c.splice(i, 1));
+            b[sami] = c.splice(0, 1)[0];
+            f = f + 1;
+            
+            }
+        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++');
+        console.log(b);
+
+        //for(var i = a.length-1; i >= 0; i--) {
+        //if(i % 2 === 1) {
+        //    b.unshift(a.splice(i, 1)[0])
+        //}
+        //}
 /* 
 ok so now 
 a has names
@@ -875,6 +900,8 @@ b has callback functions
 +----------------------+
 |   exit   |   exit()  |
 \----------------------/
+id-num-choice
+5-0-choice
 */
         //console.log(a);
         //console.log(b);
@@ -890,10 +917,11 @@ b has callback functions
             abcElements[i].id = 'abc-' + i;
         
         */
+        var ida;
         for (var i = 0; i < a.length; i++) {
-
+            ida = id + '-' + i + 'choice';
             //console.log(a[i])
-			d = $('<a class="clippy-choice" ></a>').text(a[i]).attr("id",i);
+			d = $('<a class="clippy-choice" ></a>').text(a[i]).attr("id",ida);
             choices.push(d);
         }
      
@@ -931,6 +959,7 @@ b has callback functions
     },
 
     hide:function () {
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this._balloon.hide();
     },
 // ------------------------------------------------
@@ -953,9 +982,9 @@ b has callback functions
                 idx++;
                 this._loop = window.setTimeout($.proxy(this._addWord, this), time);
             } else {
-            	var div = el.append('<div class="questions" />')
+            	var div = el.append('<div class="questions" id="' + this._id + '-questions" />')
             	for (var i = 0; i < choices.length; i++) {
-            		choices[i].appendTo( '.questions');
+            		choices[i].appendTo( '#' + this._id + '-questions');
 				}
                 var self = this;
                 //logi('4');
@@ -968,8 +997,8 @@ b has callback functions
                     //if (callback) {
                     //    callback($(this).text());
                     //console.log(callback);
-                    //console.log(this);
-                    //console.log(callback[this.id]);
+                    console.log('you click');
+                    //console.log(this.id);
                     //callback();
                     //}
                 });
