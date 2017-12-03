@@ -836,6 +836,7 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
  */
 
     ask:function () {
+        logi(arguments);
         console.log('user asked');
         var argo = arguments[1];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
@@ -928,6 +929,7 @@ b has callback functions
 // ------------------------------------------------
     _sayWords:function (text, choices, hold, complete, callback, isQuestion, time = this.WORD_SPEAK_TIME) {
         //console.log(arguments);
+        logi('/*-*/*-*-*//-*-*/' + complete);
         this._active = true;
         this._hold = hold;
         logi(hold);
@@ -952,13 +954,15 @@ b has callback functions
                 $(".clippy-choice").click(function() {
                     self.close(true);
                     var samica = callback[this.id];
-                    if (samica) {
-                        callback($(this).text());
+                    logi(samica);
+                    samica;
+                    //if (samica) {
+                    //    callback($(this).text());
                     //console.log(callback);
-                    //console.log(this.id);
+                    //console.log(this);
                     //console.log(callback[this.id]);
                     //eval(samica);
-                    }
+                    //}
                 });
                 if (!isQuestion && callback) {
                     callback();
