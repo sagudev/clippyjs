@@ -2,6 +2,8 @@
 <html>
 <head>
 <title>clipy demo</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Clippy.js -->
 <script src="easyjs/easy.js"></script>
@@ -15,43 +17,51 @@
 <div>
 <p id="demo"></p>
 <script type="text/javascript">
+
+function samo() {
+    //var aaa = 'hiiiiiiiiiiiiiiiiiiiiiiiiiii'
+    //document.getElementById("demo").innerHTML = a;
+    console.log('hiiiiiiiiiiiiiiiiiiiiiiiii');
+    //return;// DO NOT RETURN 1
+
+};
+function vili() {
+    //var aaa = 'hooooooooooooooooooooooooooo'
+    console.log('hoooooooooooooooooooooooooo');
+    //document.getElementById("demo").innerHTML = a;ž
+    //return;
+
+}
+
+
+
+
+
     clippy.load('Merlin', 2, function(agent){
         // do anything with the loaded agent
         agent.show();
-        agent.ask('what to write', 'hi', 'samo()', 'ho', 'sami()');
+        agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
         //agent.ask('what to write', 'hi')
         agent.speak('1When all else fails, bind some paper together. My name is Clippy.');
         agent.speak('2When all else fails, bind some paper together. My name is Clippy.');
         agent.speak('3When all else fails, bind some paper together. My name is Clippy.');
-        agent.ask('what to write', 'hi', 'samo()', 'ho', 'sami()');
+        agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
 
 
     });
     clippy.load('Rover', 5, function(agent){
         // do anything with the loaded agent
         agent.show();
-        agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'sami()');
+        agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
         //agent.ask('what to write', 'hi')
         agent.speak('1When all else fails, bind some paper together. My name is Clippy.');
         agent.speak('2When all else fails, bind some paper together. My name is Clippy.');
         agent.speak('3When all else fails, bind some paper together. My name is Clippy.');
-        agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'sami()');
+        agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
 
 
     });
-function samo() {
-    var a = 'hi'
-    document.getElementById("demo").innerHTML = a;
-    console.log()
-    return 1;
 
-}
-function sami() {
-    var a = 'ho'
-    document.getElementById("demo").innerHTML = a;ž
-    return;
-
-}
 </script>
 </div>
 </body>

@@ -794,7 +794,7 @@ clippy.Balloon.prototype = {
     },
 
     speak:function (complete, text, hold, callback) {
-        logi(arguments);
+        //logi(arguments);
         this._hidden = false;
         this.show();
         var c = this._content;
@@ -810,7 +810,7 @@ clippy.Balloon.prototype = {
         this.reposition();
 
         this._complete = complete;
-        console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
+        //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
         this._sayWords(text, [], hold, complete, callback, false);
     },
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -840,9 +840,9 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
  */
 
     ask:function () {
-        logi(arguments);
+        //logi(arguments);
         var id = this._id;
-        console.log('user asked');
+        //console.log('user asked');
         var argo = arguments[2];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
         //logi(argo);
@@ -876,15 +876,15 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
         for(var i = a.length-1; i >= 0; i--) {
         
             //b.unshift(a.splice(i, 1)[0])
-            sami = id + '-' + f + 'choice';
+            sami = id + '-' + f + '-choice';
                 //console.log(f + ': ' + sami)
             //console.log(c.splice(i, 1));
             b[sami] = c.splice(0, 1)[0];
             f = f + 1;
             
             }
-        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++');
-        console.log(b);
+        //console.log('b is:');
+        //console.log(b);
 
         //for(var i = a.length-1; i >= 0; i--) {
         //if(i % 2 === 1) {
@@ -919,7 +919,7 @@ id-num-choice
         */
         var ida;
         for (var i = 0; i < a.length; i++) {
-            ida = id + '-' + i + 'choice';
+            ida = id + '-' + i + '-choice';
             //console.log(a[i])
 			d = $('<a class="clippy-choice" ></a>').text(a[i]).attr("id",ida);
             choices.push(d);
@@ -950,7 +950,7 @@ id-num-choice
         //var hold = true;
         this._complete = complete;
         //logi('3');
-        this._sayWords(text, choices, true, complete, callback, true, b);
+        this._sayWords(text, choices, true, complete, callback, true);
     },
 // ------------------------------------------------
     show:function () {
@@ -963,7 +963,7 @@ id-num-choice
         this._balloon.hide();
     },
 // ------------------------------------------------
-    _sayWords:function (text, choices, hold, complete, callback, isQuestion, b, time = this.WORD_SPEAK_TIME) {
+    _sayWords:function (text, choices, hold, complete, callback, isQuestion, time = this.WORD_SPEAK_TIME) {
         //console.log(arguments);
         //logi('/*-*/*-*-*//-*-*/' + complete);
         this._active = true;
@@ -987,9 +987,17 @@ id-num-choice
             		choices[i].appendTo( '#' + this._id + '-questions');
 				}
                 var self = this;
+                var selfi;
+                var funci;
                 //logi('4');
+                var clicked_id;
                 $(".clippy-choice").click(function() {
-
+                    clicked_id = this.id;
+                    selfi=document.getElementById(clicked_id);
+                    
+                    funci = b[clicked_id];
+                    logi(funci);
+                    eval(funci);
                     self.close();
                     //var samica = callback[this.id];
                     //logi(samica);
@@ -1008,9 +1016,9 @@ id-num-choice
                 }
                 delete this._addWord;
                 this._active = false;
-                logi(this._hold);
+                //logi(this._hold);
                 if (!hold) {
-                    logi('hi')
+                    //logi('hi')
                     complete();
                     delete this._complete;
                     this.close();
@@ -1035,21 +1043,27 @@ id-num-choice
 
     close:function (fast) {
         if (this._active) {
+            //logi('1');
             this._hold = false;
             return;
         }
         if (this._hold) {
+            //logi('2');
             this._hold = false;
             if (this._complete) {
+                //logi('2.1');
                 this._complete();
                 delete this._complete;
             }
         }
         if (!this._hidden) {
+            //logi('3');
             if (fast) {
+                //logi('3.1');
                 this._balloon.hide();
                 this._hidden = true;
             } else {
+                //logi('3.2');
                 this._hiding = window.setTimeout($.proxy(this._finishHideBalloon, this), this.CLOSE_BALLOON_DELAY);
             }
         }
