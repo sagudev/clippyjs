@@ -7,7 +7,7 @@ var samosamo = 'hi';
  *
  * @constructor
  */
-clippy.Agent = function (path, data, sounds) {
+clippy.Agent = function (path, id, data, sounds) {
     this.path = path;
     
     this._queue = new clippy.Queue($.proxy(this._onQueueEmpty, this));
@@ -18,7 +18,7 @@ clippy.Agent = function (path, data, sounds) {
 
     this._animator = new clippy.Animator(this._el, path, data, sounds);
 
-    this._balloon = new clippy.Balloon(this._el);
+    this._balloon = new clippy.Balloon(this._el, id);
 
     this._setupEvents();
 };
@@ -691,11 +691,11 @@ clippy.Animator.States = { WAITING:1, EXITED:0 };
  *
  * @constructor
  */
-clippy.Balloon = function (targetEl) {
+clippy.Balloon = function (targetEl, id) {
     this._targetEl = targetEl;
 
     this._hidden = true;
-    this._id = 'mi';
+    this._id = id;
     this._setup();
 };
 
@@ -704,9 +704,13 @@ clippy.Balloon.prototype = {
     CLOSE_BALLOON_DELAY:2000,
 
     _setup:function () {
-        this._balloon = $('<div class="clippy-balloon"><div class="clippy-tip"></div><div class="clippy-content"></div></div> ').hide();
-        this._content = this._balloon.find('.clippy-content');
-
+        // id + '-' class
+        id = this._id
+        this._balloon = $('<div class="clippy-balloon" id="' + id + '-clippy-balloon"><div class="clippy-tip" id="' + id + '-clippy-tip"></div><div class="clippy-content" id="' + id + '-clippy-content"></div></div> ').hide();
+        //this._content = this._balloon.find('.clippy-content');
+        this._content = this._balloon.find('#' + id + '-clippy-content')
+        //logi("-------------------------------------------------");
+        //logi(this._balloon.find('#' + id + '-clippy-content'));
         $(document.body).append(this._balloon);
     },
 
@@ -1049,7 +1053,7 @@ b has callback functions
 
 clippy.BASE_PATH = 'agents/';
 
-clippy.load = function (name, successCb, failCb, path) {
+clippy.load = function (name, id, successCb, failCb, path) {
     //console.log(path);
     //path = path + name || clippy.BASE_PATH + name;
     path = clippy.BASE_PATH + name;
@@ -1074,7 +1078,7 @@ clippy.load = function (name, successCb, failCb, path) {
 
     // wrapper to the success callback
     var cb = function () {
-        var a = new clippy.Agent(path, data,sounds);
+        var a = new clippy.Agent(path, id, data, sounds);
         successCb(a);
     };
 

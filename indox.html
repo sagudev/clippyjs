@@ -15,7 +15,7 @@
 <div>
 <p id="demo"></p>
 <script type="text/javascript">
-    clippy.load('Merlin', function(agent){
+    clippy.load('Merlin', 2, function(agent){
         // do anything with the loaded agent
         agent.show();
         agent.ask('what to write', 'hi', 'samo()', 'ho', 'sami()');
@@ -27,7 +27,7 @@
 
 
     });
-    clippy.load('Rover', function(agent){
+    clippy.load('Rover', 5, function(agent){
         // do anything with the loaded agent
         agent.show();
         agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'sami()');
