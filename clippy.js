@@ -173,7 +173,7 @@ clippy.Agent.prototype = {
      */
     speak:function (text, hold, callback) {
         this._addToQueue(function (complete) {
-            console.log('-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + complete)
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
             this._balloon.speak(complete, text, hold, callback);
         }, this);
     },
@@ -183,13 +183,16 @@ clippy.Agent.prototype = {
      * @param {String} text
      */
 
-    //(intro, text1, callback1, text2, callback2, ...)
-    ask:function () {
-
+    //(intro, callback, text1, callback1, text2, callback2, ...)
+    //ask:function (intro, ...argo, callback) {
+        ask:function () {
         var args = [];
+        var callback;
         for (var i = 0; i < arguments.length; ++i) args[i] = arguments[i];
         this._addToQueue(function (complete) {
-            this._balloon.ask(complete, args);
+            logi('1');
+            this._balloon.ask(complete, callback, args);
+            logi('2');
         }, this);
     },
 
@@ -806,7 +809,7 @@ clippy.Balloon.prototype = {
         this.reposition();
 
         this._complete = complete;
-        console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete);
+        console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
         this._sayWords(text, [], hold, complete, callback, false);
     },
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -838,10 +841,11 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
     ask:function () {
         logi(arguments);
         console.log('user asked');
-        var argo = arguments[1];
+        var argo = arguments[2];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
         //logi(argo);
         var complete = arguments[0];
+        var callback = arguments[1];
         //console.log(argo);
         //console.log(complete);
         //argo.shift();
@@ -915,6 +919,7 @@ b has callback functions
         var callback = b;
         var hold = true;
         this._complete = complete;
+        logi('3');
         this._sayWords(text, choices, hold, complete, callback, true);
     },
 // ------------------------------------------------
@@ -951,20 +956,22 @@ b has callback functions
             		choices[i].appendTo( '.questions');
 				}
                 var self = this;
+                logi('4');
                 $(".clippy-choice").click(function() {
-                    self.close(true);
+                    self.close();
                     var samica = callback[this.id];
                     //logi(samica);
                     //samica;
-                    //if (samica) {
+                    //if (callback) {
                     //    callback($(this).text());
                     //console.log(callback);
                     //console.log(this);
                     //console.log(callback[this.id]);
-                    eval(samica);
+                    callback();
                     //}
                 });
                 if (!isQuestion && callback) {
+
                     callback();
                 }
                 delete this._addWord;
