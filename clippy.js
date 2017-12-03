@@ -190,9 +190,9 @@ clippy.Agent.prototype = {
         var callback;
         for (var i = 0; i < arguments.length; ++i) args[i] = arguments[i];
         this._addToQueue(function (complete) {
-            logi('1');
+            //logi('1');
             this._balloon.ask(complete, callback, args);
-            logi('2');
+            //logi('2');
         }, this);
     },
 
@@ -916,11 +916,11 @@ b has callback functions
         c.text('');
         this.reposition();
 
-        var callback = b;
-        var hold = true;
+        //var callback = b;
+        //var hold = true;
         this._complete = complete;
-        logi('3');
-        this._sayWords(text, choices, hold, complete, callback, true);
+        //logi('3');
+        this._sayWords(text, choices, true, complete, callback, true, b);
     },
 // ------------------------------------------------
     show:function () {
@@ -932,12 +932,12 @@ b has callback functions
         this._balloon.hide();
     },
 // ------------------------------------------------
-    _sayWords:function (text, choices, hold, complete, callback, isQuestion, time = this.WORD_SPEAK_TIME) {
+    _sayWords:function (text, choices, hold, complete, callback, isQuestion, b, time = this.WORD_SPEAK_TIME) {
         //console.log(arguments);
-        logi('/*-*/*-*-*//-*-*/' + complete);
+        //logi('/*-*/*-*-*//-*-*/' + complete);
         this._active = true;
         this._hold = hold;
-        logi(hold);
+        //logi(this._hold);
         var words = text.split(/[^\S-]/);
         //var time = this.WORD_SPEAK_TIME;
         //time = typeof time !== 'undefined' ? time : WORD_SPEAK_TIME;
@@ -956,10 +956,11 @@ b has callback functions
             		choices[i].appendTo( '.questions');
 				}
                 var self = this;
-                logi('4');
+                //logi('4');
                 $(".clippy-choice").click(function() {
+
                     self.close();
-                    var samica = callback[this.id];
+                    //var samica = callback[this.id];
                     //logi(samica);
                     //samica;
                     //if (callback) {
@@ -967,7 +968,7 @@ b has callback functions
                     //console.log(callback);
                     //console.log(this);
                     //console.log(callback[this.id]);
-                    callback();
+                    //callback();
                     //}
                 });
                 if (!isQuestion && callback) {
@@ -976,7 +977,8 @@ b has callback functions
                 }
                 delete this._addWord;
                 this._active = false;
-                if (!this._hold) {
+                logi(this._hold);
+                if (!hold) {
                     logi('hi')
                     complete();
                     delete this._complete;
