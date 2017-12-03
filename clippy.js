@@ -1,8 +1,4 @@
 var clippy = {};
-function logi(texti) {
-    console.log(texti);
-    return;
-}
 
 
 var samosamo = 'hi';
@@ -699,6 +695,7 @@ clippy.Balloon = function (targetEl) {
     this._targetEl = targetEl;
 
     this._hidden = true;
+    this._id = 'mi';
     this._setup();
 };
 
@@ -840,6 +837,7 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
 
     ask:function () {
         logi(arguments);
+        logi(this._id);
         console.log('user asked');
         var argo = arguments[2];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
