@@ -954,14 +954,14 @@ b has callback functions
                 $(".clippy-choice").click(function() {
                     self.close(true);
                     var samica = callback[this.id];
-                    logi(samica);
-                    samica;
+                    //logi(samica);
+                    //samica;
                     //if (samica) {
                     //    callback($(this).text());
                     //console.log(callback);
                     //console.log(this);
                     //console.log(callback[this.id]);
-                    //eval(samica);
+                    eval(samica);
                     //}
                 });
                 if (!isQuestion && callback) {
