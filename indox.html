@@ -17,6 +17,7 @@
 <div>
 <p id="demo"></p>
 <button type="button" id="say-hello">Say Hello</button>
+<button type="button" id="say-hellu">Say Hellu</button>
 <script type="text/javascript">
 
 function samo() {
@@ -74,8 +75,19 @@ function vili() {
     $(function() {
 
         $('#say-hello').on('click', () => {
-            var agent = clippy.con(2).agent;
-            agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            //var agent = clippy.con(2).agent;
+            clippy.con(2).agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            //clippy.cob(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            //agent.a2.ask(...)
+        });
+
+    });
+    $(function() {
+
+        $('#say-hellu').on('click', () => {
+            //var agent = clippy.con(2).agent;
+            //clippy.con(2).agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            clippy.cob(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
             //agent.a2.ask(...)
         });
 

@@ -1097,8 +1097,23 @@ id-num-choice
 clippy.BASE_PATH = 'agents/';
 
 clippy.agents = [];
+/* 
 clippy.con = function(id) {
     return clippy.agents.filter(function(agent) {
+        return agent.id == id;
+    })[0];
+} */
+clippy.cob = function(ide) {
+    return clippy.con(ide).agent
+
+}
+clippy.con = function(id) {
+    console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
+    debugger;
+    
+    return clippy.agents.filter(function(agent) {
+        //logi(agent.id);
+        //logi(id);
         return agent.id == id;
     })[0];
 }
