@@ -4,11 +4,19 @@
 <title>clipy demo</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- jquary -->
+<!-- <script src="jquery-3.2.1.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Clippy.js -->
+
+<!-- easy.js -->
 <script src="easyjs/easy.js"></script>
+
+<!-- Clippy.CSS -->
 <link rel="stylesheet" type="text/css" href="clippy.css" media="all">
+<!-- Clippy.js -->
 <script src="clippy.js"></script>
+
 </head>
 <body>
 
@@ -16,7 +24,10 @@
 <p>This is a paragraph.</p>
 <div>
 <p id="demo"></p>
+<button type="button" id="say-hello">Say Hello</button>
+
 <script type="text/javascript">
+
 
 function samo() {
     //var aaa = 'hiiiiiiiiiiiiiiiiiiiiiiiiiii'
@@ -28,7 +39,7 @@ function samo() {
 function vili() {
     //var aaa = 'hooooooooooooooooooooooooooo'
     console.log('hoooooooooooooooooooooooooo');
-    //document.getElementById("demo").innerHTML = a;ž
+    //document.getElementById("demo").innerHTML = a;
     //return;
 
 }
@@ -40,12 +51,12 @@ function vili() {
     clippy.load('Merlin', 2, function(agent){
         // do anything with the loaded agent
         agent.show();
-        agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
-        //agent.ask('what to write', 'hi')
-        agent.speak('1When all else fails, bind some paper together. My name is Clippy.');
-        agent.speak('2When all else fails, bind some paper together. My name is Clippy.');
-        agent.speak('3When all else fails, bind some paper together. My name is Clippy.');
-        agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+        // agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+        // //agent.ask('what to write', 'hi')
+        // agent.speak('1When all else fails, bind some paper together. My name is Clippy.');
+        // agent.speak('2When all else fails, bind some paper together. My name is Clippy.');
+        // agent.speak('3When all else fails, bind some paper together. My name is Clippy.');
+        // agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
 
 
     });
@@ -63,6 +74,28 @@ function vili() {
     });
 
 </script>
+<script>
+    
+    // clippy.con(2, [
+    //     ask('what to write', 'hi', 'samo()', 'ho', 'vili()'),
+    //     ask('what to write', 'hi', 'samo()', 'ho', 'vili()')
+    // ]);
+
+    $(function() {
+
+        $('#say-hello').on('click', () => {
+            //var agent = clippy.con(2).agent;
+            clippy.con(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            //clippy.con(2).ask('what to writee', 'hi', 'samo()', 'ho', 'vili()');
+            //agent.a2.ask(...)
+
+
+        });
+
+    });
+
+</script>
 </div>
+
 </body>
 </html> 
