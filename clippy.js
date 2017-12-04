@@ -1109,7 +1109,7 @@ clippy.con = function(ide) {
 }
 clippy.conb = function(id) {
     console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
-    debugger;
+
     
     return clippy.agents.filter(function(agent) {
         //logi(agent.id);

@@ -1,20 +1,19 @@
 ```html
 <!-- Add the stylesheet to the head -->
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/sagudev/clippy.js/1.5/clippy.css" media="all">
+<link rel="stylesheet" type="text/css" href="clippy.css" media="all">
 
-
-
-...
 
 <!-- jQuery 1.7+ -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
 <!-- Clippy.js -->
-<script src="https://cdn.rawgit.com/sagudev/clippy.js/1.5/clippy.js"></script>
+<script src="clippy.js"></script>
 
 <!-- Init script -->
 <script type="text/javascript">
-    clippy.load('Merlin', function(agent){
+//clippy.load('agent name', id,...
+// id can be any number
+    clippy.load('Merlin', 5, function(agent){
         // do anything with the loaded agent
         agent.show();
     });
@@ -58,6 +57,17 @@ agent.stop();
 agent.ask(asktext, option1-text, option1-function, option2-text, ... unlimited)
 
 ...
+```
+Run code outside clippy.load function
+-------------------------------------
+
+```javascript
+
+clippy.con(id).command()
+
+example:
+
+clippy.con(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
 
 Explore yourself
 ```
