@@ -4,11 +4,19 @@
 <title>clipy demo</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- jquary -->
+<!-- <script src="jquery-3.2.1.min.js"></script> -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Clippy.js -->
+
+<!-- easy.js -->
 <script src="easyjs/easy.js"></script>
+
+<!-- Clippy.CSS -->
 <link rel="stylesheet" type="text/css" href="clippy.css" media="all">
+<!-- Clippy.js -->
 <script src="clippy.js"></script>
+
 </head>
 <body>
 
@@ -19,6 +27,7 @@
 <button type="button" id="say-hello">Say Hello</button>
 <button type="button" id="say-hellu">Say Hellu</button>
 <script type="text/javascript">
+
 
 function samo() {
     //var aaa = 'hiiiiiiiiiiiiiiiiiiiiiiiiiii'
@@ -66,7 +75,7 @@ function vili() {
 
 </script>
 <script>
-
+    
     // clippy.con(2, [
     //     ask('what to write', 'hi', 'samo()', 'ho', 'vili()'),
     //     ask('what to write', 'hi', 'samo()', 'ho', 'vili()')
@@ -76,7 +85,7 @@ function vili() {
 
         $('#say-hello').on('click', () => {
             //var agent = clippy.con(2).agent;
-            clippy.con(2).agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            clippy.con(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
             //clippy.cob(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
             //agent.a2.ask(...)
         });
@@ -87,7 +96,7 @@ function vili() {
         $('#say-hellu').on('click', () => {
             //var agent = clippy.con(2).agent;
             //clippy.con(2).agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
-            clippy.cob(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            //clippy.cob(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
             //agent.a2.ask(...)
         });
 
@@ -102,5 +111,6 @@ function vili() {
     // agetn.ask('');
 </script>
 </div>
+
 </body>
 </html> 

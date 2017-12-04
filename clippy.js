@@ -1103,11 +1103,11 @@ clippy.con = function(id) {
         return agent.id == id;
     })[0];
 } */
-clippy.cob = function(ide) {
-    return clippy.con(ide).agent
+clippy.con = function(ide) {
+    return clippy.conb(ide).agent
 
 }
-clippy.con = function(id) {
+clippy.conb = function(id) {
     console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
     debugger;
     
@@ -1293,3 +1293,4 @@ clippy.Queue.prototype = {
         this._queue = [];
     },
 };
+var clippy_js_is_loaded = 1;
