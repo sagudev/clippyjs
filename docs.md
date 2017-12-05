@@ -40,7 +40,8 @@ agent.animations();
 // => ["MoveLeft", "Congratulate", "Hide", "Pleased", "Acknowledge", ...]
 
 // Show text balloon
-agent.speak('When all else fails, bind some paper together. My name is Clippy.');
+// Where time enter how many miliseconds will user had to read text in balloon
+agent.speak('When all else fails, bind some paper together. My name is Clippy.', time);
 
 // move to the given point, use animation if available
 agent.moveTo(100,100);
