@@ -1010,19 +1010,40 @@ id-num-choice
                     //callback();
                     //}
                 });
-                if (!isQuestion && callback) {
-
-                    callback();
-                }
                 delete this._addWord;
                 this._active = false;
-                //logi(this._hold);
-                if (!hold) {
-                    //logi('hi')
-                    complete();
-                    delete this._complete;
-                    this.close();
+                if (!isQuestion && !hold) {
+
+                    setTimeout(function(){
+                        console.log('hi');
+                        //debugger
+                        if (callback) {
+                            callback();
+                        }
+                        complete();
+                        delete this._complete;
+                        //debugger
+                        this.close();
+                        
+                        //do what you need here
+                        
+                    }, 2000);
+
                 }
+                
+               // if (!isQuestion && callback) {
+                    
+                                        //callback();
+                                    //}
+                                  //  delete this._addWord;
+                                    //this._active = false;
+                                    //logi(this._hold);
+                                 //   debugger
+                                   // if (!hold) {
+                                        //logi('hi')
+                                        
+                              //      }
+                                   // debugger
             }
         }, this);
 
