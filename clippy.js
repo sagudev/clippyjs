@@ -167,10 +167,10 @@ clippy.Agent.prototype = {
      *
      * @param {String} text
      */
-    speak:function (text, hold, callback) {
+    speak:function (text, wait_time, hold, callback) {
         this._addToQueue(function (complete) {
             //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
-            this._balloon.speak(complete, text, hold, callback);
+            this._balloon.speak(complete, text, wait_time, hold, callback);
         }, this);
     },
 
@@ -793,7 +793,7 @@ clippy.Balloon.prototype = {
         return false;
     },
 
-    speak:function (complete, text, hold, callback) {
+    speak:function (complete, text, wait_time, hold, callback) {
         //logi(arguments);
         this._hidden = false;
         this.show();
@@ -811,7 +811,7 @@ clippy.Balloon.prototype = {
 
         this._complete = complete;
         //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
-        this._sayWords(text, [], hold, complete, callback, false);
+        this._sayWords(text, [], hold, complete, callback, false, wait_time);
     },
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -963,14 +963,15 @@ id-num-choice
         this._balloon.hide();
     },
 // ------------------------------------------------
-    _sayWords:function (text, choices, hold, complete, callback, isQuestion, time = this.WORD_SPEAK_TIME) {
+    _sayWords:function (text, choices, hold, complete, callback, isQuestion, wait_time = 5000) {
         //console.log(arguments);
         //logi('/*-*/*-*-*//-*-*/' + complete);
+        //console.log('see: ' + wait_time);
         this._active = true;
         this._hold = hold;
         //logi(this._hold);
         var words = text.split(/[^\S-]/);
-        //var time = this.WORD_SPEAK_TIME;
+        var time = this.WORD_SPEAK_TIME;
         //time = typeof time !== 'undefined' ? time : WORD_SPEAK_TIME;
         var el = this._content;
         var idx = 1;
@@ -996,7 +997,7 @@ id-num-choice
                     selfi=document.getElementById(clicked_id);
                     
                     funci = b[clicked_id];
-                    logi(funci);
+                    //logi(funci);
                     eval(funci);
                     self.close();
                     //var samica = callback[this.id];
@@ -1005,24 +1006,45 @@ id-num-choice
                     //if (callback) {
                     //    callback($(this).text());
                     //console.log(callback);
-                    console.log('you click');
+                    //console.log('you click');
                     //console.log(this.id);
                     //callback();
                     //}
                 });
-                if (!isQuestion && callback) {
-
-                    callback();
-                }
                 delete this._addWord;
                 this._active = false;
-                //logi(this._hold);
-                if (!hold) {
-                    //logi('hi')
-                    complete();
-                    delete this._complete;
-                    this.close();
+                if (!isQuestion && !hold) {
+
+                    setTimeout(function(){
+                        //console.log('hi');
+                        //debugger
+                        if (callback) {
+                            callback();
+                        }
+                        complete();
+                        delete this._complete;
+                        //debugger
+                        self.close();
+                        //debugger;
+                        //do what you need here
+                        
+                    }, wait_time);
+
                 }
+                
+               // if (!isQuestion && callback) {
+                    
+                                        //callback();
+                                    //}
+                                  //  delete this._addWord;
+                                    //this._active = false;
+                                    //logi(this._hold);
+                                 //   debugger
+                                   // if (!hold) {
+                                        //logi('hi')
+                                        
+                              //      }
+                                   // debugger
             }
         }, this);
 
@@ -1095,6 +1117,7 @@ id-num-choice
 
 
 clippy.BASE_PATH = 'agents/';
+//---------------------------------------------------------------------------------------------------
 
 clippy.agents = [];
 /* 
@@ -1107,6 +1130,10 @@ clippy.con = function(ide) {
     return clippy.conb(ide).agent
 
 }
+/* clippy.say = function(ide) {
+    return clippy.speak
+
+} */
 clippy.conb = function(id) {
     console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
 
@@ -1117,7 +1144,7 @@ clippy.conb = function(id) {
         return agent.id == id;
     })[0];
 }
-
+//-----------------------------------------------------------------------------------------------
 clippy.load = function (name, id, successCb, failCb, path) {
     //console.log(path);
     //path = path + name || clippy.BASE_PATH + name;

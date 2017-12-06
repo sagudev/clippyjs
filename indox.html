@@ -9,8 +9,8 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 <!-- Clippy.js -->
 
-<!-- easy.js -->
-<script src="easyjs/easy.js"></script>
+<!-- easy.js 
+<script src="easyjs/easy.js"></script>-->
 
 <!-- Clippy.CSS -->
 <link rel="stylesheet" type="text/css" href="clippy.css" media="all">
@@ -86,6 +86,8 @@ function vili() {
         $('#say-hello').on('click', () => {
             //var agent = clippy.con(2).agent;
             clippy.con(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
+            clippy.con(2).speak('hi', 3000);
+            clippy.con(2).speak('ho', 3000)
             //clippy.con(2).ask('what to writee', 'hi', 'samo()', 'ho', 'vili()');
             //agent.a2.ask(...)
 
