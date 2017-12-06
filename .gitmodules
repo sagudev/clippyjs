@@ -1,0 +1,3 @@
+[submodule "easyjs"]
+	path = easyjs
+	url = https://github.com/sagudev/easyjs

@@ -1,22 +1,24 @@
 var clippy = {};
+var b = {};
 
+var samosamo = 'hi';
 /******
  *
  *
  * @constructor
  */
-clippy.Agent = function (path, data, sounds) {
+clippy.Agent = function (path, id, data, sounds) {
     this.path = path;
     
     this._queue = new clippy.Queue($.proxy(this._onQueueEmpty, this));
 
-    this._el = $('<div class="clippy"></div>').hide();
+    this._el = $('<div class="clippy" id="' + id + '-clippy"></div>').hide();
 
     $(document.body).append(this._el);
 
     this._animator = new clippy.Animator(this._el, path, data, sounds);
 
-    this._balloon = new clippy.Balloon(this._el);
+    this._balloon = new clippy.Balloon(this._el, id);
 
     this._setupEvents();
 };
@@ -165,9 +167,10 @@ clippy.Agent.prototype = {
      *
      * @param {String} text
      */
-    speak:function (text, hold, callback) {
+    speak:function (text, wait_time, hold, callback) {
         this._addToQueue(function (complete) {
-            this._balloon.speak(complete, text, hold, callback);
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
+            this._balloon.speak(complete, text, wait_time, hold, callback);
         }, this);
     },
 
@@ -176,18 +179,16 @@ clippy.Agent.prototype = {
      * @param {String} text
      */
 
-    //(intro, text1, callback1, text2, callback2, ...)
-    ask:function () {
-
+    //(intro, callback, text1, callback1, text2, callback2, ...)
+    //ask:function (intro, ...argo, callback) {
+        ask:function () {
         var args = [];
+        var callback;
         for (var i = 0; i < arguments.length; ++i) args[i] = arguments[i];
-        
-        
-
-
         this._addToQueue(function (complete) {
-            //console.log(args);
-            this._balloon.ask(complete, args);
+            //logi('1');
+            this._balloon.ask(complete, callback, args);
+            //logi('2');
         }, this);
     },
 
@@ -690,10 +691,11 @@ clippy.Animator.States = { WAITING:1, EXITED:0 };
  *
  * @constructor
  */
-clippy.Balloon = function (targetEl) {
+clippy.Balloon = function (targetEl, id) {
     this._targetEl = targetEl;
 
     this._hidden = true;
+    this._id = id;
     this._setup();
 };
 
@@ -702,9 +704,13 @@ clippy.Balloon.prototype = {
     CLOSE_BALLOON_DELAY:2000,
 
     _setup:function () {
-        this._balloon = $('<div class="clippy-balloon"><div class="clippy-tip"></div><div class="clippy-content"></div></div> ').hide();
-        this._content = this._balloon.find('.clippy-content');
-
+        // id + '-' class
+        id = this._id
+        this._balloon = $('<div class="clippy-balloon" id="' + id + '-clippy-balloon"><div class="clippy-tip" id="' + id + '-clippy-tip"></div><div class="clippy-content" id="' + id + '-clippy-content"></div></div> ').hide();
+        //this._content = this._balloon.find('.clippy-content');
+        this._content = this._balloon.find('#' + id + '-clippy-content')
+        //logi("-------------------------------------------------");
+        //logi(this._balloon.find('#' + id + '-clippy-content'));
         $(document.body).append(this._balloon);
     },
 
@@ -787,7 +793,8 @@ clippy.Balloon.prototype = {
         return false;
     },
 
-    speak:function (complete, text, hold, callback) {
+    speak:function (complete, text, wait_time, hold, callback) {
+        //logi(arguments);
         this._hidden = false;
         this.show();
         var c = this._content;
@@ -803,7 +810,8 @@ clippy.Balloon.prototype = {
         this.reposition();
 
         this._complete = complete;
-        this._sayWords(text, [], hold, complete, callback, false);
+        //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
+        this._sayWords(text, [], hold, complete, callback, false, wait_time);
     },
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -832,11 +840,14 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
  */
 
     ask:function () {
-        //console.log(arguments);
-        var argo = arguments[1];
+        //logi(arguments);
+        var id = this._id;
+        //console.log('user asked');
+        var argo = arguments[2];
         //for (var i = 0; i < arguments.length; ++i) argo[i] = arguments[i];
-        //console.log(argo);
+        //logi(argo);
         var complete = arguments[0];
+        var callback = arguments[1];
         //console.log(argo);
         //console.log(complete);
         //argo.shift();
@@ -848,13 +859,38 @@ ask(complete, intro, text1, callback1, text2, callback2, ...)
         //console.log(argo[0]);
 
 
-        var a = argo, b = [];
+        var a = argo;
 
+        var f = 0;
+        var c = [];
         for(var i = a.length-1; i >= 0; i--) {
         if(i % 2 === 1) {
-            b.unshift(a.splice(i, 1)[0])
+            c.unshift(a.splice(i, 1)[0])
+            //sami = id + '_' + f;
+            //console.log(f + ': ' + sami)
+            //console.log(a.splice(i, 1));
+            //b[sami] = a.splice(i, 1)[0];
+            //f = f + 1;
         }
         }
+        for(var i = a.length-1; i >= 0; i--) {
+        
+            //b.unshift(a.splice(i, 1)[0])
+            sami = id + '-' + f + '-choice';
+                //console.log(f + ': ' + sami)
+            //console.log(c.splice(i, 1));
+            b[sami] = c.splice(0, 1)[0];
+            f = f + 1;
+            
+            }
+        //console.log('b is:');
+        //console.log(b);
+
+        //for(var i = a.length-1; i >= 0; i--) {
+        //if(i % 2 === 1) {
+        //    b.unshift(a.splice(i, 1)[0])
+        //}
+        //}
 /* 
 ok so now 
 a has names
@@ -864,6 +900,8 @@ b has callback functions
 +----------------------+
 |   exit   |   exit()  |
 \----------------------/
+id-num-choice
+5-0-choice
 */
         //console.log(a);
         //console.log(b);
@@ -879,10 +917,11 @@ b has callback functions
             abcElements[i].id = 'abc-' + i;
         
         */
+        var ida;
         for (var i = 0; i < a.length; i++) {
-
+            ida = id + '-' + i + '-choice';
             //console.log(a[i])
-			d = $('<a class="clippy-choice" ></a>').text(a[i]).attr("id",i);
+			d = $('<a class="clippy-choice" ></a>').text(a[i]).attr("id",ida);
             choices.push(d);
         }
      
@@ -906,9 +945,11 @@ b has callback functions
         c.width(c.width());
         c.text('');
         this.reposition();
-        var callback = b;
 
+        //var callback = b;
+        //var hold = true;
         this._complete = complete;
+        //logi('3');
         this._sayWords(text, choices, true, complete, callback, true);
     },
 // ------------------------------------------------
@@ -918,15 +959,19 @@ b has callback functions
     },
 
     hide:function () {
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         this._balloon.hide();
     },
 // ------------------------------------------------
-    _sayWords:function (text, choices, hold, complete, callback, isQuestion, time = this.WORD_SPEAK_TIME) {
-        console.log(arguments);
+    _sayWords:function (text, choices, hold, complete, callback, isQuestion, wait_time = 5000) {
+        //console.log(arguments);
+        //logi('/*-*/*-*-*//-*-*/' + complete);
+        //console.log('see: ' + wait_time);
         this._active = true;
         this._hold = hold;
+        //logi(this._hold);
         var words = text.split(/[^\S-]/);
-        //var time = this.WORD_SPEAK_TIME;
+        var time = this.WORD_SPEAK_TIME;
         //time = typeof time !== 'undefined' ? time : WORD_SPEAK_TIME;
         var el = this._content;
         var idx = 1;
@@ -938,31 +983,68 @@ b has callback functions
                 idx++;
                 this._loop = window.setTimeout($.proxy(this._addWord, this), time);
             } else {
-            	var div = el.append('<div class="questions" />')
+            	var div = el.append('<div class="questions" id="' + this._id + '-questions" />')
             	for (var i = 0; i < choices.length; i++) {
-            		choices[i].appendTo( '.questions');
+            		choices[i].appendTo( '#' + this._id + '-questions');
 				}
                 var self = this;
+                var selfi;
+                var funci;
+                //logi('4');
+                var clicked_id;
                 $(".clippy-choice").click(function() {
-                    self.close(true);
+                    clicked_id = this.id;
+                    selfi=document.getElementById(clicked_id);
+                    
+                    funci = b[clicked_id];
+                    //logi(funci);
+                    eval(funci);
+                    self.close();
+                    //var samica = callback[this.id];
+                    //logi(samica);
+                    //samica;
                     //if (callback) {
                     //    callback($(this).text());
                     //console.log(callback);
+                    //console.log('you click');
                     //console.log(this.id);
-                    //console.log(callback[this.id]);
-                    eval(callback[this.id])
+                    //callback();
                     //}
                 });
-                if (!isQuestion && callback) {
-                    callback();
-                }
                 delete this._addWord;
                 this._active = false;
-                if (!this._hold) {
-                    complete();
-                    delete this._complete;
-                    this.close();
+                if (!isQuestion && !hold) {
+
+                    setTimeout(function(){
+                        //console.log('hi');
+                        //debugger
+                        if (callback) {
+                            callback();
+                        }
+                        complete();
+                        delete this._complete;
+                        //debugger
+                        self.close();
+                        //debugger;
+                        //do what you need here
+                        
+                    }, wait_time);
+
                 }
+                
+               // if (!isQuestion && callback) {
+                    
+                                        //callback();
+                                    //}
+                                  //  delete this._addWord;
+                                    //this._active = false;
+                                    //logi(this._hold);
+                                 //   debugger
+                                   // if (!hold) {
+                                        //logi('hi')
+                                        
+                              //      }
+                                   // debugger
             }
         }, this);
 
@@ -983,21 +1065,27 @@ b has callback functions
 
     close:function (fast) {
         if (this._active) {
+            //logi('1');
             this._hold = false;
             return;
         }
         if (this._hold) {
+            //logi('2');
             this._hold = false;
             if (this._complete) {
+                //logi('2.1');
                 this._complete();
                 delete this._complete;
             }
         }
         if (!this._hidden) {
+            //logi('3');
             if (fast) {
+                //logi('3.1');
                 this._balloon.hide();
                 this._hidden = true;
             } else {
+                //logi('3.2');
                 this._hiding = window.setTimeout($.proxy(this._finishHideBalloon, this), this.CLOSE_BALLOON_DELAY);
             }
         }
@@ -1029,8 +1117,35 @@ b has callback functions
 
 
 clippy.BASE_PATH = 'agents/';
+//---------------------------------------------------------------------------------------------------
 
-clippy.load = function (name, successCb, failCb, path) {
+clippy.agents = [];
+/* 
+clippy.con = function(id) {
+    return clippy.agents.filter(function(agent) {
+        return agent.id == id;
+    })[0];
+} */
+clippy.con = function(ide) {
+    return clippy.conb(ide).agent
+
+}
+/* clippy.say = function(ide) {
+    return clippy.speak
+
+} */
+clippy.conb = function(id) {
+    console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
+
+    
+    return clippy.agents.filter(function(agent) {
+        //logi(agent.id);
+        //logi(id);
+        return agent.id == id;
+    })[0];
+}
+//-----------------------------------------------------------------------------------------------
+clippy.load = function (name, id, successCb, failCb, path) {
     //console.log(path);
     //path = path + name || clippy.BASE_PATH + name;
     path = clippy.BASE_PATH + name;
@@ -1055,7 +1170,13 @@ clippy.load = function (name, successCb, failCb, path) {
 
     // wrapper to the success callback
     var cb = function () {
-        var a = new clippy.Agent(path, data,sounds);
+        var a = new clippy.Agent(path, id, data, sounds);
+        clippy.agents.push({
+            name: name,
+            id: id,
+            agent: a
+        });
+
         successCb(a);
     };
 
@@ -1199,3 +1320,4 @@ clippy.Queue.prototype = {
         this._queue = [];
     },
 };
+var clippy_js_is_loaded = 1;
