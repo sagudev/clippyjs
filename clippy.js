@@ -173,6 +173,18 @@ clippy.Agent.prototype = {
             this._balloon.speak(complete, text, wait_time, hold, callback);
         }, this);
     },
+    say:function (text, wait_time, hold, callback) {
+        this._addToQueue(function (complete) {
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
+            this._balloon.speak(complete, text, wait_time, hold, callback);
+        }, this);
+    },
+    tell:function (text, wait_time, hold, callback) {
+        this._addToQueue(function (complete) {
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
+            this._balloon.speak(complete, text, wait_time, hold, callback);
+        }, this);
+    },
 
     /***
      *
