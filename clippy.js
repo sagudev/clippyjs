@@ -997,7 +997,7 @@ id-num-choice
                     selfi=document.getElementById(clicked_id);
                     
                     funci = b[clicked_id];
-                    logi(funci);
+                    //logi(funci);
                     eval(funci);
                     self.close();
                     //var samica = callback[this.id];
