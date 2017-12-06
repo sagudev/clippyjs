@@ -966,7 +966,7 @@ id-num-choice
     _sayWords:function (text, choices, hold, complete, callback, isQuestion, wait_time = 5000) {
         //console.log(arguments);
         //logi('/*-*/*-*-*//-*-*/' + complete);
-        console.log('see: ' + wait_time);
+        //console.log('see: ' + wait_time);
         this._active = true;
         this._hold = hold;
         //logi(this._hold);
@@ -1006,7 +1006,7 @@ id-num-choice
                     //if (callback) {
                     //    callback($(this).text());
                     //console.log(callback);
-                    console.log('you click');
+                    //console.log('you click');
                     //console.log(this.id);
                     //callback();
                     //}
@@ -1016,7 +1016,7 @@ id-num-choice
                 if (!isQuestion && !hold) {
 
                     setTimeout(function(){
-                        console.log('hi');
+                        //console.log('hi');
                         //debugger
                         if (callback) {
                             callback();
@@ -1024,8 +1024,8 @@ id-num-choice
                         complete();
                         delete this._complete;
                         //debugger
-                        this.close();
-                        
+                        self.close();
+                        //debugger;
                         //do what you need here
                         
                     }, wait_time);
