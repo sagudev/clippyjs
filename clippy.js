@@ -205,6 +205,17 @@ clippy.Agent.prototype = {
     },
 
     /***
+     *
+     * @param {String} text
+     */
+    enter:function (text, input_text, callback) {
+        this._addToQueue(function (complete) {
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
+            this._balloon.enter(complete, text, input_text, callback);
+        }, this);
+    },
+
+    /***
      * Close the current balloon
      */
     closeBalloon:function () {
@@ -823,7 +834,7 @@ clippy.Balloon.prototype = {
 
         this._complete = complete;
         //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
-        this._sayWords(text, [], hold, complete, callback, false, wait_time);
+        this._sayWords(text, [], hold, complete, callback, false, false, wait_time);
     },
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -831,6 +842,10 @@ clippy.Balloon.prototype = {
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 
@@ -975,7 +990,37 @@ id-num-choice
         this._balloon.hide();
     },
 // ------------------------------------------------
-    _sayWords:function (text, choices, hold, complete, callback, isQuestion, wait_time = 5000) {
+
+enter:function (complete, text, input_text, callback) {
+    //logi(arguments);
+    
+    var choices;
+    this._hidden = false;
+    this.show();
+    var c = this._content;
+    // set height to auto
+    c.height('auto');
+    c.width('auto');
+    // add the text
+    c.text(text);
+    // set height
+    c.height(c.height());
+    c.width(c.width());
+    c.text('');
+    this.reposition();
+
+
+    ida = id + '-' + i + '-input';
+    //console.log(a[i])
+    d = $('<input value="' + input_text + '">').attr("id",ida);
+    choices.push(d);
+    
+
+    this._complete = complete;
+    //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
+    this._sayWords(text, choices, true, complete, callback, false, true);
+},
+    _sayWords:function (text, choices, hold, complete, callback, isQuestion, isinput, wait_time = 5000) {
         //console.log(arguments);
         //logi('/*-*/*-*-*//-*-*/' + complete);
         //console.log('see: ' + wait_time);
