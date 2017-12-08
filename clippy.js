@@ -208,10 +208,10 @@ clippy.Agent.prototype = {
      *
      * @param {String} text
      */
-    enter:function (text, input_text, callback) {
+    enter:function (text, callback) {
         this._addToQueue(function (complete) {
             //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
-            this._balloon.enter(complete, text, input_text, callback);
+            this._balloon.enter(complete, text, callback);
         }, this);
     },
 
@@ -991,36 +991,41 @@ id-num-choice
     },
 // ------------------------------------------------
 
-enter:function (complete, text, input_text, callback) {
-    //logi(arguments);
-    
-    var choices;
-    this._hidden = false;
-    this.show();
-    var c = this._content;
-    // set height to auto
-    c.height('auto');
-    c.width('auto');
-    // add the text
-    c.text(text);
-    // set height
-    c.height(c.height());
-    c.width(c.width());
-    c.text('');
-    this.reposition();
+    enter:function (complete, text, callback) {
+        //logi(arguments);
+        var choices = [];
+
+        ida = id;// + '-input';
+        //console.log(a[i])
+        //d = $('<input value="' + input_text + '">').attr("id",ida);
+        //<form id="sami"><input id="samo" type="text"></form>
+        d = $('<form id="' + ida + '-form' + '"><input id="' + ida + '-input' + '" type="text"></form>');
+        choices.push(d);
+        
+        
+        this._hidden = false;
+        this.show();
+        var c = this._content;
+        // set height to auto
+        c.height('auto');
+        c.width('auto');
+        // add the text
+        c.text(text);
+        // set height
+        c.height(c.height());
+        c.width(c.width());
+        c.text('');
+        this.reposition();
 
 
-    ida = id + '-' + i + '-input';
-    //console.log(a[i])
-    d = $('<input value="' + input_text + '">').attr("id",ida);
-    choices.push(d);
-    
 
-    this._complete = complete;
-    //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
-    this._sayWords(text, choices, true, complete, callback, false, true);
-},
-    _sayWords:function (text, choices, hold, complete, callback, isQuestion, isinput, wait_time = 5000) {
+        
+
+        this._complete = complete;
+        //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
+        this._sayWords(text, choices, true, complete, callback, false, true);
+    },
+    _sayWords:function (text, choices, hold, complete, callback, isQuestion, isInput, wait_time = 5000) {
         //console.log(arguments);
         //logi('/*-*/*-*-*//-*-*/' + complete);
         //console.log('see: ' + wait_time);
@@ -1040,15 +1045,31 @@ enter:function (complete, text, input_text, callback) {
                 idx++;
                 this._loop = window.setTimeout($.proxy(this._addWord, this), time);
             } else {
-            	var div = el.append('<div class="questions" id="' + this._id + '-questions" />')
-            	for (var i = 0; i < choices.length; i++) {
-            		choices[i].appendTo( '#' + this._id + '-questions');
-				}
+                var div = el.append('<div class="questions" id="' + this._id + '-questions" />')
+                if (isQuestion) {
+                    for (var i = 0; i < choices.length; i++) {
+                        choices[i].appendTo( '#' + this._id + '-questions');
+                    }
+                } else if (isInput) {
+                    choices[0].appendTo( '#' + this._id + '-questions');
+                }
                 var self = this;
                 var selfi;
                 var funci;
                 //logi('4');
                 var clicked_id;
+                var im;
+                $( '#' + this._id + '-form' ).submit(function( event ) {
+                    
+                    console.log('input');
+                    im = document.getElementById('#' + this._id + '-input');
+                    console.log(im);
+                    console.log(im.value);
+                    self.close();
+                      //event.preventDefault();
+                      return false;
+                      
+                    });
                 $(".clippy-choice").click(function() {
                     clicked_id = this.id;
                     selfi=document.getElementById(clicked_id);
@@ -1068,9 +1089,10 @@ enter:function (complete, text, input_text, callback) {
                     //callback();
                     //}
                 });
+
                 delete this._addWord;
                 this._active = false;
-                if (!isQuestion && !hold) {
+                if (!isQuestion && !hold && !isInput) {
 
                     setTimeout(function(){
                         //console.log('hi');
