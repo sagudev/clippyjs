@@ -963,6 +963,7 @@ id-num-choice
         c.text(text);
         //console.log(choices);
         //console.log('--------------------------');
+
         for (var i in choices) {
             c.append(choices[i]);
             //console.log(choices[i]);
@@ -999,13 +1000,27 @@ id-num-choice
         //console.log(a[i])
         //d = $('<input value="' + input_text + '">').attr("id",ida);
         //<form id="sami"><input id="samo" type="text"></form>
-        d = $('<form id="' + ida + '-form' + '"><input id="' + ida + '-input' + '" type="text"></form>');
+        d = $('<form class="clippy-form" id="' + ida + '-clippy-form' + '"><input class="clippy-input" id="' + ida + '-clippy-input' + '" type="text"></form>');
         choices.push(d);
         
         
         this._hidden = false;
         this.show();
         var c = this._content;
+
+        // c append
+
+
+        for (var i in choices) {
+            c.append(choices[i]);
+            //console.log(choices[i]);
+        }
+
+
+
+
+
+
         // set height to auto
         c.height('auto');
         c.width('auto');
@@ -1016,6 +1031,7 @@ id-num-choice
         c.width(c.width());
         c.text('');
         this.reposition();
+        // c.append
 
 
 
@@ -1051,7 +1067,7 @@ id-num-choice
                         choices[i].appendTo( '#' + this._id + '-questions');
                     }
                 } else if (isInput) {
-                    choices[0].appendTo( '#' + this._id + '-questions');
+                    choices[0].appendTo( '#' + this._id + '-clippy-content');
                 }
                 var self = this;
                 var selfi;
@@ -1059,10 +1075,10 @@ id-num-choice
                 //logi('4');
                 var clicked_id;
                 var im;
-                $( '#' + this._id + '-form' ).submit(function( event ) {
+                $( '#' + this._id + '-clippy-form' ).submit(function( event ) {
                     
                     console.log('input');
-                    im = document.getElementById('#' + this._id + '-input');
+                    im = document.getElementById('#' + this._id + '-clippy-input');
                     console.log(im);
                     console.log(im.value);
                     self.close();
