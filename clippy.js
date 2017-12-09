@@ -1,5 +1,6 @@
 var clippy = {};
 var b = {};
+var inpot = {};
 
 var samosamo = 'hi';
 /******
@@ -1075,7 +1076,7 @@ id-num-choice
                 var val;
                 $( '#' + this._id + '-clippy-form' ).submit(function() {
                     val = document.getElementById(this.id.replace('form','input')).value;
-                    console.log(val);
+                    inpot[0] = val;
                     self.close();
                     
                     return false;
