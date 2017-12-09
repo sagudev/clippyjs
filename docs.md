@@ -63,6 +63,9 @@ Run code outside clippy.load function
 -------------------------------------
 
 ```javascript
+you can init agent by:
+
+clippy.init('agent name', id, enter false if you will show him manualy)
 
 clippy.con(id).command()
 

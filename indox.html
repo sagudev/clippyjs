@@ -44,11 +44,11 @@ function vili() {
 
 }
 
+// clippy.init('agent name', id, enter false if you will show him manualy)
 
+    clippy.init('Merlin', 2)
 
-
-
-    clippy.load('Merlin', 2, function(agent){
+    /* clippy.load('Merlin', 2, function(agent){
         // do anything with the loaded agent
         agent.show();
         // agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
@@ -59,16 +59,16 @@ function vili() {
         // agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
 
 
-    });
-    async(clippy.load('Rover', 5, function(agent){
+    }); */
+    clippy.load('Rover', 5, function(agent){
         // do anything with the loaded agent
         agent.show();
-        var samoo = await agent.enter('samo');
-        console.log(samoo); 
+        //var samoo = await agent.enter('samo');
+        //console.log(samoo); 
         //debugger
-        if (inpot[0] === 'hi') {
-            agent.tell('hiiiiiiiiiiiiiiiiiiiiiiii')
-        } else {
+        //if (inpot[0] === 'hi') {
+        //    agent.tell('hiiiiiiiiiiiiiiiiiiiiiiii')
+        //} else {
             agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
         //agent.ask('what to write', 'hi')
         
@@ -76,10 +76,10 @@ function vili() {
         agent.speak('2When all else fails, bind some paper together. My name is Clippy.');
         agent.speak('3When all else fails, bind some paper together. My name is Clippy.');
         agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
-    }
+    //}
 
 
-    }));
+    });
 
 </script>
 <script>

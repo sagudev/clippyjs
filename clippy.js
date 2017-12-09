@@ -8,6 +8,7 @@ var samosamo = 'hi';
  *
  * @constructor
  */
+
 clippy.Agent = function (path, id, data, sounds) {
     this.path = path;
     
@@ -1227,7 +1228,7 @@ clippy.con = function(ide) {
 
 } */
 clippy.conb = function(id) {
-    console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
+    //console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
 
     
     return clippy.agents.filter(function(agent) {
@@ -1413,3 +1414,20 @@ clippy.Queue.prototype = {
     },
 };
 var clippy_js_is_loaded = 1;
+clippy.init = function (agentname, agentid, show = true) {
+    if (show) {
+        clippy.load(agentname, agentid, function(agent){
+            
+            agent.show();
+      
+        });
+    } else {
+        clippy.load(agentname, agentid, function(agent){
+            
+            agent.stop();
+      
+        });
+    }
+
+
+};
