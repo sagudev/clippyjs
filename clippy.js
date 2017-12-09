@@ -1010,6 +1010,12 @@ id-num-choice
 
         // c append
 
+        // set height to auto
+        c.height('auto');
+        c.width('auto');
+        // add the text
+        c.text(text);
+
 
         for (var i in choices) {
             c.append(choices[i]);
@@ -1018,14 +1024,6 @@ id-num-choice
 
 
 
-
-
-
-        // set height to auto
-        c.height('auto');
-        c.width('auto');
-        // add the text
-        c.text(text);
         // set height
         c.height(c.height());
         c.width(c.width());
