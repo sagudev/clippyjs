@@ -1072,16 +1072,14 @@ id-num-choice
                 var funci;
                 //logi('4');
                 var clicked_id;
-                var im;
-                $( '#' + this._id + '-clippy-form' ).submit(function( event ) {
-                    
-                    console.log('input');
-                    im = document.getElementById('#' + this._id + '-clippy-input');
-                    console.log(im);
-                    console.log(im.value);
+                var val;
+                $( '#' + this._id + '-clippy-form' ).submit(function() {
+                    val = document.getElementById(this.id.replace('form','input')).value;
+                    console.log(val);
                     self.close();
-                      //event.preventDefault();
-                      return false;
+                    
+                    return false;
+                    
                       
                     });
                 $(".clippy-choice").click(function() {
