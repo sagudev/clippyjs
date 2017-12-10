@@ -1,6 +1,6 @@
 ```html
 <!-- Add the stylesheet to the head -->
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/sagudev/clippyjs/fv2.1.0/clippy.min.css" media="all">
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/sagudev/clippyjs/fv2.1.0/clippy.css" media="all">
 
 
 <!-- jQuery 1.7+ -->
