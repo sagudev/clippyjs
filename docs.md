@@ -1,13 +1,13 @@
 ```html
 <!-- Add the stylesheet to the head -->
-<link rel="stylesheet" type="text/css" href="clippy.css" media="all">
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/sagudev/clippyjs/fv2.1.0/clippy.min.css" media="all">
 
 
 <!-- jQuery 1.7+ -->
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
 <!-- Clippy.js -->
-<script src="clippy.js"></script>
+<script src="https://cdn.rawgit.com/sagudev/clippyjs/fv2.1.0/clippy.min.js"></script>
 
 <!-- Init script -->
 <script type="text/javascript">

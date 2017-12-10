@@ -2,7 +2,7 @@
 =========
 demo:
 -----------
-https://rawgit.com/sagudev/clippy.js/master/indox.html
+https://rawgit.com/sagudev/clippyjs/master/indox.html
 
 Usage: Setup
 ------------
