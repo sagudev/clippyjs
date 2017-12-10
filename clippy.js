@@ -1,5 +1,6 @@
 var clippy = {};
 var b = {};
+var inpot = {};
 
 var samosamo = 'hi';
 /******
@@ -7,6 +8,7 @@ var samosamo = 'hi';
  *
  * @constructor
  */
+
 clippy.Agent = function (path, id, data, sounds) {
     this.path = path;
     
@@ -173,6 +175,18 @@ clippy.Agent.prototype = {
             this._balloon.speak(complete, text, wait_time, hold, callback);
         }, this);
     },
+    say:function (text, wait_time, hold, callback) {
+        this._addToQueue(function (complete) {
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
+            this._balloon.speak(complete, text, wait_time, hold, callback);
+        }, this);
+    },
+    tell:function (text, wait_time, hold, callback) {
+        this._addToQueue(function (complete) {
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
+            this._balloon.speak(complete, text, wait_time, hold, callback);
+        }, this);
+    },
 
     /***
      *
@@ -181,7 +195,7 @@ clippy.Agent.prototype = {
 
     //(intro, callback, text1, callback1, text2, callback2, ...)
     //ask:function (intro, ...argo, callback) {
-        ask:function () {
+    ask:function () {
         var args = [];
         var callback;
         for (var i = 0; i < arguments.length; ++i) args[i] = arguments[i];
@@ -190,6 +204,19 @@ clippy.Agent.prototype = {
             this._balloon.ask(complete, callback, args);
             //logi('2');
         }, this);
+    },
+
+    /***
+     *
+     * @param {String} text
+     */
+    enter:function (text, fun, callback) {
+
+        this._addToQueue(function (complete) {
+            //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
+            this._balloon.enter(complete, text, fun, callback);
+        }, this);
+        
     },
 
     /***
@@ -811,7 +838,7 @@ clippy.Balloon.prototype = {
 
         this._complete = complete;
         //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
-        this._sayWords(text, [], hold, complete, callback, false, wait_time);
+        this._sayWords(text, [], hold, complete, callback, false, false, wait_time);
     },
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -819,6 +846,10 @@ clippy.Balloon.prototype = {
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 
@@ -936,6 +967,7 @@ id-num-choice
         c.text(text);
         //console.log(choices);
         //console.log('--------------------------');
+
         for (var i in choices) {
             c.append(choices[i]);
             //console.log(choices[i]);
@@ -963,7 +995,55 @@ id-num-choice
         this._balloon.hide();
     },
 // ------------------------------------------------
-    _sayWords:function (text, choices, hold, complete, callback, isQuestion, wait_time = 5000) {
+
+    enter:function (complete, text, fun, callback) {
+        //logi(arguments);
+        var choices = [];
+
+        ida = id;// + '-input';
+        //console.log(a[i])
+        //d = $('<input value="' + input_text + '">').attr("id",ida);
+        //<form id="sami"><input id="samo" type="text"></form>
+        d = $('<form class="clippy-form" id="' + ida + '-clippy-form' + '"><input class="clippy-input" id="' + ida + '-clippy-input' + '" type="text"></form>');
+        choices.push(d);
+        
+        
+        this._hidden = false;
+        this.show();
+        var c = this._content;
+
+        // c append
+
+        // set height to auto
+        c.height('auto');
+        c.width('auto');
+        // add the text
+        c.text(text);
+
+
+        for (var i in choices) {
+            c.append(choices[i]);
+            //console.log(choices[i]);
+        }
+
+
+
+        // set height
+        c.height(c.height());
+        c.width(c.width());
+        c.text('');
+        this.reposition();
+        // c.append
+        var suki = id + 'input';
+
+
+        b[suki] = fun;
+
+        this._complete = complete;
+        //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
+        this._sayWords(text, choices, true, complete, callback, false, true);
+    },
+    _sayWords:function (text, choices, hold, complete, callback, isQuestion, isInput, wait_time = 5000) {
         //console.log(arguments);
         //logi('/*-*/*-*-*//-*-*/' + complete);
         //console.log('see: ' + wait_time);
@@ -983,15 +1063,39 @@ id-num-choice
                 idx++;
                 this._loop = window.setTimeout($.proxy(this._addWord, this), time);
             } else {
-            	var div = el.append('<div class="questions" id="' + this._id + '-questions" />')
-            	for (var i = 0; i < choices.length; i++) {
-            		choices[i].appendTo( '#' + this._id + '-questions');
-				}
+                var div = el.append('<div class="questions" id="' + this._id + '-questions" />')
+                if (isQuestion) {
+                    for (var i = 0; i < choices.length; i++) {
+                        choices[i].appendTo( '#' + this._id + '-questions');
+                    }
+                } else if (isInput) {
+                    choices[0].appendTo( '#' + this._id + '-clippy-content');
+                }
                 var self = this;
                 var selfi;
                 var funci;
                 //logi('4');
                 var clicked_id;
+                var val;
+                var suki = id + 'input';
+                var kaka = b[suki];
+                if (kaka.indexOf("(x)")!= -1){
+
+                    kaka = kaka.replace("(x)", "(inpot[0])");
+                }
+ 
+
+                $( '#' + this._id + '-clippy-form' ).submit(function(e) {
+                    
+                    inpot[0] = document.getElementById(this.id.replace('form','input')).value;
+                    eval(kaka);                                                                                     
+                    self.close();
+
+                    
+                    return false;
+                    
+                      
+                    });
                 $(".clippy-choice").click(function() {
                     clicked_id = this.id;
                     selfi=document.getElementById(clicked_id);
@@ -1011,9 +1115,10 @@ id-num-choice
                     //callback();
                     //}
                 });
+
                 delete this._addWord;
                 this._active = false;
-                if (!isQuestion && !hold) {
+                if (!isQuestion && !hold && !isInput) {
 
                     setTimeout(function(){
                         //console.log('hi');
@@ -1135,7 +1240,7 @@ clippy.con = function(ide) {
 
 } */
 clippy.conb = function(id) {
-    console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
+    //console.log(clippy.agents.filter(function(agent) { return agent.id == id; })[0]);
 
     
     return clippy.agents.filter(function(agent) {
@@ -1321,3 +1426,20 @@ clippy.Queue.prototype = {
     },
 };
 var clippy_js_is_loaded = 1;
+clippy.init = function (agentname, agentid, show = true) {
+    if (show) {
+        clippy.load(agentname, agentid, function(agent){
+            
+            agent.show();
+      
+        });
+    } else {
+        clippy.load(agentname, agentid, function(agent){
+            
+            agent.stop();
+      
+        });
+    }
+
+
+};
