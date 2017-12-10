@@ -9,6 +9,7 @@ var gen_list_1 = Object.keys(commands_list);
 var gen_list_2 = Object.values(commands_list);
 var gen_list = gen_list_1.concat(gen_list_2);
 function cmd(command) {
+    command = command.toLowerCase();
     console.log('command to run: ' + command)
     if (command === 'help') {
         console.log("help");
