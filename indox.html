@@ -27,7 +27,13 @@
 <button type="button" id="say-hello">Say Hello</button>
 
 <script type="text/javascript">
+function samou(hihohi) {
+    //var aaa = 'hiiiiiiiiiiiiiiiiiiiiiiiiiii'
+    //document.getElementById("demo").innerHTML = a;
+    console.log(hihohi);
+    //return;// DO NOT RETURN 1
 
+};
 
 function samo() {
     //var aaa = 'hiiiiiiiiiiiiiiiiiiiiiiiiiii'
@@ -44,11 +50,11 @@ function vili() {
 
 }
 
+// clippy.init('agent name', id, enter false if you will show him manualy)
 
+    clippy.init('Merlin', 2)
 
-
-
-    clippy.load('Merlin', 2, function(agent){
+    /* clippy.load('Merlin', 2, function(agent){
         // do anything with the loaded agent
         agent.show();
         // agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
@@ -59,16 +65,26 @@ function vili() {
         // agent.ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
 
 
-    });
+    }); */
+    var samoo
     clippy.load('Rover', 5, function(agent){
         // do anything with the loaded agent
         agent.show();
-        agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
+        //var samoo = 
+        agent.enter('samo', 'samou(x)');
+
+        //debugger
+        //if (inpot[0] === 'hi') {
+        //    agent.tell('hiiiiiiiiiiiiiiiiiiiiiiii')
+        //} else {
+        //    agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
         //agent.ask('what to write', 'hi')
+        
         agent.speak('1When all else fails, bind some paper together. My name is Clippy.');
         agent.speak('2When all else fails, bind some paper together. My name is Clippy.');
         agent.speak('3When all else fails, bind some paper together. My name is Clippy.');
         agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
+    //}
 
 
     });
@@ -87,7 +103,9 @@ function vili() {
             //var agent = clippy.con(2).agent;
             clippy.con(2).ask('what to write', 'hi', 'samo()', 'ho', 'vili()');
             clippy.con(2).speak('hi', 3000);
-            clippy.con(2).speak('ho', 3000)
+            clippy.con(2).say('ho', 5000);
+            clippy.con(2).tell('hi', 3000);
+            //clippy.con(5).tell('hiiiiiiiiiiiiiiiii', 3000);
             //clippy.con(2).ask('what to writee', 'hi', 'samo()', 'ho', 'vili()');
             //agent.a2.ask(...)
 

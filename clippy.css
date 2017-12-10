@@ -11,13 +11,17 @@
     padding: 8px;
     border: 1px solid black;
     border-radius: 5px;
+
+
 }
 
 .clippy-content {
-    max-width: 200px;
+    /* max-width: 200px; */
     min-width: 120px;
     font-family: "Microsoft Sans", sans-serif;
     font-size: 10pt;
+    
+    
 }
 
 .clippy-tip {
@@ -69,4 +73,9 @@
 
 .clippy-choice:hover {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAPFBMVEUAAAAAZpn///+ysrIAM5kAM2aGhoYzZpkAmcyZ//8zzP8z//8AzP//+/BmzMwAzMwAZswzmZkAmZkzM5k2EqaPAAAAAXRSTlMAQObYZgAAAEpJREFUCNcdyFsWgDAIA9EEAq31rfvfq9j5umcAeGY6MNVE+dRNtmA52a+tU82Q8ZzL2hkGJ4ctfFVU4zGouvAQg6XKQmJperdfH157AZiSJ5KvAAAAAElFTkSuQmCC);
+}
+
+.clippy-input {
+    width: 100%;
+    height: 100%;
 }
