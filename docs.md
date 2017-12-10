@@ -55,7 +55,15 @@ agent.stopCurrent();
 // stop all actions in the queue and go back to idle mode
 agent.stop();
 
-agent.ask(asktext, option1-text, option1-function, option2-text, ... unlimited)
+// ask with options
+agent.ask(asktext, option1-text, option1-func-to-run, option2-text, ... unlimited);
+
+// give user to write something
+agent.enter(text, func-to-run);
+// to get user input in func write function_name(x)
+
+
+
 
 ...
 ```

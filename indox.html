@@ -27,7 +27,13 @@
 <button type="button" id="say-hello">Say Hello</button>
 
 <script type="text/javascript">
+function samou(hihohi) {
+    //var aaa = 'hiiiiiiiiiiiiiiiiiiiiiiiiiii'
+    //document.getElementById("demo").innerHTML = a;
+    console.log(hihohi);
+    //return;// DO NOT RETURN 1
 
+};
 
 function samo() {
     //var aaa = 'hiiiiiiiiiiiiiiiiiiiiiiiiiii'
@@ -60,16 +66,18 @@ function vili() {
 
 
     }); */
+    var samoo
     clippy.load('Rover', 5, function(agent){
         // do anything with the loaded agent
         agent.show();
-        //var samoo = await agent.enter('samo');
-        //console.log(samoo); 
+        //var samoo = 
+        agent.enter('samo', 'samou(x)');
+
         //debugger
         //if (inpot[0] === 'hi') {
         //    agent.tell('hiiiiiiiiiiiiiiiiiiiiiiii')
         //} else {
-            agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
+        //    agent.ask('what to write', 'hihi', 'samo()', 'hoho', 'vili()');
         //agent.ask('what to write', 'hi')
         
         agent.speak('1When all else fails, bind some paper together. My name is Clippy.');

@@ -195,7 +195,7 @@ clippy.Agent.prototype = {
 
     //(intro, callback, text1, callback1, text2, callback2, ...)
     //ask:function (intro, ...argo, callback) {
-        ask:function () {
+    ask:function () {
         var args = [];
         var callback;
         for (var i = 0; i < arguments.length; ++i) args[i] = arguments[i];
@@ -210,11 +210,13 @@ clippy.Agent.prototype = {
      *
      * @param {String} text
      */
-    enter:function (text, callback) {
+    enter:function (text, fun, callback) {
+
         this._addToQueue(function (complete) {
             //console.log(complete + '-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ' + callback)
-            this._balloon.enter(complete, text, callback);
+            this._balloon.enter(complete, text, fun, callback);
         }, this);
+        
     },
 
     /***
@@ -994,7 +996,7 @@ id-num-choice
     },
 // ------------------------------------------------
 
-    enter:function (complete, text, callback) {
+    enter:function (complete, text, fun, callback) {
         //logi(arguments);
         var choices = [];
 
@@ -1032,10 +1034,10 @@ id-num-choice
         c.text('');
         this.reposition();
         // c.append
+        var suki = id + 'input';
 
 
-
-        
+        b[suki] = fun;
 
         this._complete = complete;
         //console.log(this._complete + '!!!!!!!!!!!!!!!!!' + complete + '--------------------------' + callback);
@@ -1075,10 +1077,20 @@ id-num-choice
                 //logi('4');
                 var clicked_id;
                 var val;
-                $( '#' + this._id + '-clippy-form' ).submit(function() {
-                    val = document.getElementById(this.id.replace('form','input')).value;
-                    inpot[0] = val;
+                var suki = id + 'input';
+                var kaka = b[suki];
+                if (kaka.indexOf("(x)")!= -1){
+
+                    kaka = kaka.replace("(x)", "(inpot[0])");
+                }
+ 
+
+                $( '#' + this._id + '-clippy-form' ).submit(function(e) {
+                    
+                    inpot[0] = document.getElementById(this.id.replace('form','input')).value;
+                    eval(kaka);                                                                                     
                     self.close();
+
                     
                     return false;
                     
